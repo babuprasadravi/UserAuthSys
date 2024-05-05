@@ -176,3 +176,65 @@ exports.signin = async (req, res) => {
         });
       });
   };
+
+// Function to handle forgot password
+exports.forgotPassword = async (req, res) => {
+    const { email } = req.body;
+  
+    try {
+        let user = await User.findOne({ email });
+        if (!user) {
+            return res.status(400).json({
+                error: 'User with that email does not exist'
+            });
+        }
+  
+        const token = jwt.sign({ _id: user._id }, process.env.JWT_RESET_PASSWORD, { expiresIn: '10m' });  // 10 minutes
+        
+        // Update user's reset password link
+        await user.updateOne({ resetPasswordLink: token });
+  
+        // Nodemailer transporter setup
+        const transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                user: process.env.EMAIL_USERNAME,
+                pass: process.env.EMAIL_PASSWORD
+            }
+        });
+  
+        // Email data
+        const mailOptions = {
+            from: '', // Sender email
+            to: email,
+            subject: 'PASSWORD RESET LINK',
+            html: `
+                <h1>Please use the following link to reset your password</h1>
+                <p>${process.env.CLIENT_URL}/auth/password/reset/${token}</p>
+                <hr />
+                <p>This email may contain sensitive information</p>
+                <p>${process.env.CLIENT_URL}</p>
+            ` 
+        };
+  
+        // Sending email
+        transporter.sendMail(mailOptions, (error, info) => {
+            if (error) {
+                console.error('Error sending email:', error);
+                return res.status(500).json({ error: 'Failed to send password reset email' });
+            } else {
+                console.log('Email sent: ' + info.response);
+                return res.json({
+                    message: `Password reset link has been sent to ${email}.`
+                });
+            }
+        });
+    }
+    catch (err) {
+        console.error('FORGOT PASSWORD ERROR', err);
+        return res.status(400).json({
+            error: err.message
+        }); 
+    }
+  }
+  

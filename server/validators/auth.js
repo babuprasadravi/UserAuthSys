@@ -42,3 +42,13 @@ exports.userSigninValidator = [
         .isLength({ min: 6 })
         .withMessage('Password must be at least 6 characters long')
 ];
+
+// Validation middleware for forgot password
+exports.forgotPasswordValidator = [
+    // Check if the email field is a valid email address
+    check('email')
+        .not()
+        .isEmpty()
+        .isEmail()
+        .withMessage('Must be a valid email address')
+];
