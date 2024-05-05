@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Signup from "./auth/Signup";
 import Login from "./auth/Login";
 import Activate from "./auth/Activate";
+import Forgot from "./auth/Forgot";
 export default function AppRoutes() {
   return (
     <BrowserRouter>
@@ -10,8 +11,8 @@ export default function AppRoutes() {
         <Route path="/" element={<Navigate to='/signup' />} />
         <Route path="/signup" element={<Signup />} /> 
         <Route path="/signin" element={<Login />} />
-
         <Route path="/auth/activate/:token" element={<Activate />} />
+        <Route path="/auth/password/forgot" exact element={<Forgot/>} />
       </Routes>
     </BrowserRouter>
   );

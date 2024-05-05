@@ -51,7 +51,7 @@ const Signup = () => {
 
   return (
     <div>
-        <Toaster richColors position="top-right" />
+        <Toaster richColors position="top-right" expand='true' />
         {isAuth() ? <Navigate to="/admin"/> : null}
         <div className={styles.signup_container}>
             <div className={styles.signup_form_container}>

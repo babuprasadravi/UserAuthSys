@@ -61,7 +61,7 @@ const Activate = () => {
 
     return (
         <div>
-            <Toaster richColors position="top-right" />
+            <Toaster richColors position="top-right" expand='true' />
             <div className={styles.activate_container}>
                 <div className={styles.activate_content}>
                     <h1>Welcome to Our Platform!</h1>

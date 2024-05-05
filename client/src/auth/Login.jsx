@@ -54,7 +54,7 @@ const Login = () => {
 
 	return (
         <div>
-            <Toaster richColors position="top-right" />
+            <Toaster richColors position="top-right" expand='true' />
             {isAuth() ? <Navigate to="/admin"/> : null}
             <div className={styles.login_container}>
 			<div className={styles.login_form_container}>
