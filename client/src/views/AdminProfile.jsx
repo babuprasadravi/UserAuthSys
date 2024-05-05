@@ -5,7 +5,7 @@ import { Toaster, toast } from 'sonner'
 import {isAuth, getCookie, signout, updateUser} from "../auth/Helpers";
 import img from '../assets/img.jpeg';
 
-const UserProfile = () => {
+const AdminProfile = () => {
 
   const [userData, setUserData] = useState({
     role : "",
@@ -40,28 +40,29 @@ const UserProfile = () => {
   },[]);
 
   function loadProfile(){
-    axios({
-        method: "GET",
-        url: `http://localhost:8000/api/user/${isAuth()._id}`,
-        headers: {
-            Authorization: `Bearer ${token}`
-        }
-    })
-    .then(function(response) {
-        console.log("PRIVATE PROFILE UPDATE", response);
-        const {role, name, email, phone} = response.data;
-        setUserData(prevUserData => ({...prevUserData, role, name, email, phone}));
-    })
-    .catch(function(error) {
-        console.log("PRIVATE PROFILE UPDATE ERROR", error.response.data.error);
-        if(error.response.status === 401){
-            signout(() => {
-                navigate("/", {replace: true});
-            });
-            toast.error(error.response.data.error);
-        }
-    });
-}
+      axios({
+          method: "GET",
+          url: `http://localhost:8000/api/user/${isAuth()._id}`,
+          headers: {
+              Authorization: `Bearer ${token}`
+          }
+      })
+      .then(function(response) {
+          console.log("PRIVATE PROFILE UPDATE", response);
+          const {role, name, email, phone} = response.data;
+          setUserData({...userData, role, name, email, phone});
+      }
+      )
+      .catch(function(error) {
+          console.log("PRIVATE PROFILE UPDATE ERROR", error.response.data.error);
+          if(error.response.status === 401){
+              signout(() => {
+                  navigate("/", {replace: true});
+              });
+              toast.error(error.response.data.error);
+          }
+      });
+  }
 
   const {role,name, email, phone, password} = userData;
 
@@ -100,7 +101,7 @@ const UserProfile = () => {
     <div>
       <Toaster richColors position="top-right" expand='true' />
       <div className="max-w-md mx-auto bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-      <h2 className="text-xl font-semibold mb-4 text-center">User Profile</h2>
+      <h2 className="text-xl font-semibold mb-4 text-center">Admin Profile</h2>
       <div className="flex items-center justify-center mb-4">
         <label htmlFor="profilePhoto" className="relative cursor-pointer">
           <img
@@ -233,4 +234,4 @@ const UserProfile = () => {
   );
 };
 
-export default UserProfile;
+export default AdminProfile;
