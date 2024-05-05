@@ -4,7 +4,6 @@ const cors = require('cors');
 const bodyParser = require('body-parser');   
 const mongoose = require('mongoose');
 require('dotenv').config();
-
 const app = express();
 
 // Connect to MongoDB
@@ -17,8 +16,10 @@ mongoose
         console.error(`Error connecting to the database. \n${err}`);
     });
 
+  
 //import routes
-const authRoutes = require('./routes/auth');  
+const authRoutes = require('./routes/auth'); 
+const userRoutes = require('./routes/user');
 
 //app middleware
 app.use(morgan('dev'));
@@ -30,11 +31,11 @@ app.use(cors()) // allows all origins
 
 //middleware
 app.use('/api', authRoutes)
+app.use('/api', userRoutes)
 
 
 const port = process.env.PORT || 8000
 
-// Start the server
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`)
 }); 
