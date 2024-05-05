@@ -238,3 +238,37 @@ exports.forgotPassword = async (req, res) => {
     }
   }
   
+
+// Function to handle reset password
+exports.resetPassword = async (req, res) => {
+    const { resetPasswordLink, newPassword } = req.body;
+  
+    if (resetPasswordLink) {
+      try {
+        const decoded = jwt.verify(resetPasswordLink, process.env.JWT_RESET_PASSWORD);
+        const user = await User.findOne({ resetPasswordLink }).exec();
+  
+        if (!user) {
+          return res.status(400).json({
+            error: 'Something went wrong. Try later'
+          });
+        }
+  
+        const updatedFields = {
+          password: newPassword,
+          resetPasswordLink: ''
+        };
+  
+        Object.assign(user, updatedFields);
+        await user.save();
+  
+        return res.json({
+          message: `Great! Now you can login with your new password`
+        });
+      } catch (err) {
+        return res.status(400).json({
+          error: 'Expired link. Try again'
+        });
+      }
+    }
+  };
