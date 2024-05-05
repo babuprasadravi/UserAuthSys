@@ -62,3 +62,39 @@ exports.signup = async (req, res) => {
         });
     }
 };
+
+// Function to handle account activation
+exports.accountActivation = async (req, res) => {
+    const { token } = req.body;
+
+    if (!token) {
+        return res.status(400).json({
+            message: 'Token is required'
+        });
+    }
+
+    jwt.verify(token, process.env.JWT_ACCOUNT_ACTIVATION, async function(err, decoded) {
+        if (err) {
+            console.log('JWT VERIFY IN ACCOUNT ACTIVATION ERROR', err);
+            return res.status(401).json({
+                error: 'Expired link. Signup again'
+            });
+        }
+
+        const { name, email, phone, password } = decoded; // Use decoded object
+
+        const user = new User({ name, email, phone, password });
+
+        try {
+            await user.save();
+            return res.json({
+                message: 'Signup success. Please signin.'
+            });
+        } catch (err) {
+            console.log('SAVE USER IN ACCOUNT ACTIVATION ERROR', err);
+            return res.status(500).json({
+                error: 'Error saving user in database. Try signup again'
+            });
+        }
+    });
+};
