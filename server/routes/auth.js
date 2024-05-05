@@ -4,7 +4,7 @@ const router = express.Router()
 
 
 // Import controller
-const { signup, accountActivation } = require('../controllers/auth');
+const { signup, accountActivation,signin } = require('../controllers/auth');
 
 // Import validators
 const { userSignupValidator, userSigninValidator } = require('../validators/auth');
@@ -18,6 +18,9 @@ router.post('/signup', userSignupValidator, runValidation, signup);
 
 // Route for account activation
 router.post('/account-activation', accountActivation);
+
+// Route for user signin
+router.post('/signin', userSigninValidator, runValidation, signin);
 
 // Export the router
 module.exports = router

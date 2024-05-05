@@ -1,6 +1,8 @@
 const User = require('../models/user'); 
 const jwt = require('jsonwebtoken');
+const { validationResult, check } = require('express-validator');
 const nodemailer = require('nodemailer');
+const { expressjwt: ejwt } = require('express-jwt')
 
 // Function to handle user signup
 exports.signup = async (req, res) => {
@@ -98,3 +100,79 @@ exports.accountActivation = async (req, res) => {
         }
     });
 };
+
+// Function to handle user signin
+exports.signin = async (req, res) => {
+    // Check for validation errors
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+  
+    // Destructure email and password from request body
+    const { email: userEmail, password } = req.body; // Rename email to userEmail
+  
+    try {
+      let user = await User.findOne({ email: userEmail }); // Use userEmail
+      if (!user) {
+        return res.status(400).json({
+          error: 'User with that email does not exist. Please signup.'
+        });
+      }
+  
+      if (!user.authenticate(password)) {
+        return res.status(400).json({
+          error: 'Email and password do not match'
+        });
+      }
+  
+      // Generate JWT token
+      const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, { expiresIn: '7d' });
+      
+      // Destructure user fields
+      const { _id, name, email, phone, role } = user;
+  
+      return res.json({
+        token,
+        user: { _id, name, email, phone, role }
+      });
+    } catch (err) {
+      console.error('SIGNIN ERROR', err);
+      return res.status(400).json({
+        error: err.message
+      });
+    }
+  };
+
+
+  exports.requireSignin = ejwt({
+    secret: process.env.JWT_SECRET, // makes data available in req.user (req.user._id)
+    algorithms: ['HS256'],
+  })
+
+  exports.adminMiddleware = (req, res, next) => {
+    // User.findById({_id: req.user._id}).exec((err, user) => {
+    User.findById({_id: req.auth._id})
+      .then(user => {
+        if (!user) {
+          return res.status(400).json({
+            error: 'User not found',
+          });
+        }
+  
+        if (user.role !== 'admin') {
+          return res.status(400).json({
+            error: 'Access denied',
+          });
+        }
+  
+        req.profile = user;
+        next();
+      })
+      .catch(err => {
+        console.error(err);
+        return res.status(500).json({
+          error: 'Internal Server Error',
+        });
+      });
+  };
