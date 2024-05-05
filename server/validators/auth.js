@@ -5,7 +5,7 @@ const { parsePhoneNumberFromString } = require('libphonenumber-js');
 exports.userSignupValidator = [
     // Check if the name field is not empty
     check('name')
-        .not()  
+        .not()
         .isEmpty()
         .withMessage('Name is required'),
 
@@ -45,7 +45,7 @@ exports.userSigninValidator = [
 
 // Validation middleware for forgot password
 exports.forgotPasswordValidator = [
-    // Check if the email field is a valid email address
+    // Check if the email field is not empty and a valid email address
     check('email')
         .not()
         .isEmpty()
@@ -53,11 +53,12 @@ exports.forgotPasswordValidator = [
         .withMessage('Must be a valid email address')
 ];
 
+// Validation middleware for reset password
 exports.resetPasswordValidator = [
+    // Check if the new password field is not empty and at least 6 characters long
     check('newPassword')
         .not()
         .isEmpty()
         .isLength({ min: 6 })
         .withMessage('Password must be at least 6 characters long')
 ];
-

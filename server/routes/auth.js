@@ -1,15 +1,16 @@
-const express = require('express')
-const { sign } = require('jsonwebtoken')
-const router = express.Router()
+// Import required modules
+const express = require('express');
+const { sign } = require('jsonwebtoken');
 
+// Create router instance
+const router = express.Router();
 
-// Import controller
+// Import controllers
 const { signup, accountActivation, signin, forgotPassword, resetPassword } = require('../controllers/auth');
 
 // Import validators
 const { userSignupValidator, userSigninValidator, forgotPasswordValidator, resetPasswordValidator } = require('../validators/auth');
-const {runValidation} = require('../validators')
-
+const { runValidation } = require('../validators');
 
 // Define routes
 
@@ -22,13 +23,11 @@ router.post('/account-activation', accountActivation);
 // Route for user signin
 router.post('/signin', userSigninValidator, runValidation, signin);
 
-//Route for Forgot password
+// Route for forgot password
 router.put('/forgot-password', forgotPasswordValidator, runValidation, forgotPassword);
 
-//Route for Reset password
+// Route for reset password
 router.put('/reset-password', resetPasswordValidator, runValidation, resetPassword);
 
-
-
 // Export the router
-module.exports = router
+module.exports = router;
