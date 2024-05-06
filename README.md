@@ -75,3 +75,51 @@ If you face any errors or difficulties while deploying the project and testing i
 -My personal Email: babuprasad784@gmail.com.
 
 Thank You!
+
+## DATABASE SCHEMA:
+
+// Define the schema for the user collection
+const userSchema = new mongoose.Schema({
+    name: {
+        type: String,
+        trim: true,
+        required: true,
+        max: 32
+    },
+    email: {
+        type: String,
+        trim: true,
+        required: true,
+        unique: true,
+        lowercase: true
+    },
+    phone: {
+        type: String,
+        trim: true,
+        required: true,
+        unique: true,
+        // Validate phone number using libphonenumber-js
+        validate: {
+            validator: function(value) {
+                return PhoneNumber.isValidNumber(value);
+            },
+            message: 'Invalid phone number'
+        }
+    },
+    password: {
+        type: String,
+        required: true
+    },
+    role: {
+        type: String,
+        default: 'subscriber'
+    },
+    resetPasswordLink: {
+        type: String,
+        default: ''
+    }
+}, 
+// Add timestamps for createdAt and updatedAt
+{ timestamps: true });
+
+#### The above is the Database schema of my Project.
