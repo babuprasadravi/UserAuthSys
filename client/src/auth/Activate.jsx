@@ -1,4 +1,3 @@
-// Importing necessary modules and components
 import styles from "../styles/Activate.module.css";
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom"; 

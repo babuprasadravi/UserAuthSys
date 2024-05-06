@@ -1,4 +1,3 @@
-// Importing necessary dependencies
 import { Link, Navigate } from "react-router-dom";
 import { useState } from "react";
 import styles from "../styles/Signup.module.css";
@@ -83,14 +82,12 @@ const Signup = () => {
 
     return (
         <div>
-            {/* Toaster for displaying notifications */}
             <Toaster richColors position="top-right" expand='true' />
             {/* Redirect to admin dashboard if already authenticated */}
             {isAuth() ? <Navigate to="/admin" /> : null}
             <div className={styles.signup_container}>
                 <div className={styles.signup_form_container}>
                     <div className={styles.left}>
-                        {/* Heading and Login button */}
                         <h1>Welcome Back</h1>
                         <Link to="/signin">
                             <button type="button" className={styles.white_btn}>
@@ -99,10 +96,8 @@ const Signup = () => {
                         </Link>
                     </div>
                     <div className={styles.right}>
-                        {/* Signup form */}
                         <form className={styles.form_container}>
                             <h1>Create Account</h1>
-                            {/* Input fields */}
                             <input
                                 type="text"
                                 placeholder="Name"
