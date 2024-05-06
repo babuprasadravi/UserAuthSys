@@ -4,14 +4,12 @@ const PhoneNumber = require('libphonenumber-js');
 
 // Define the schema for the user collection
 const userSchema = new mongoose.Schema({
-    // User's name
     name: {
         type: String,
         trim: true,
         required: true,
         max: 32
     },
-    // User's email
     email: {
         type: String,
         trim: true,
@@ -19,7 +17,6 @@ const userSchema = new mongoose.Schema({
         unique: true,
         lowercase: true
     },
-    // User's phone number
     phone: {
         type: String,
         trim: true,
@@ -33,17 +30,14 @@ const userSchema = new mongoose.Schema({
             message: 'Invalid phone number'
         }
     },
-    // User's password (hashed)
     password: {
         type: String,
         required: true
     },
-    // User's role (default is 'subscriber')
     role: {
         type: String,
         default: 'subscriber'
     },
-    // Reset password link
     resetPasswordLink: {
         type: String,
         default: ''

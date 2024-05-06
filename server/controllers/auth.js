@@ -112,11 +112,10 @@ exports.signin = async (req, res) => {
         return res.status(400).json({ errors: errors.array() });
     }
 
-    // Destructure email and password from request body
-    const { email: userEmail, password } = req.body; // Rename email to userEmail
+    const { email: userEmail, password } = req.body; 
 
     try {
-        let user = await User.findOne({ email: userEmail }); // Use userEmail
+        let user = await User.findOne({ email: userEmail }); // Find user by email
         if (!user) {
             return res.status(400).json({
                 error: 'User with that email does not exist. Please signup.'
