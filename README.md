@@ -52,8 +52,7 @@ By following these steps, the project should be deployed locally for testing.
 
 Whenever a user signs up, they will be automatically assigned the role of subscribers. The ADMIN role should be changed manually in the DB.
 
-Since this is a authentication project alone , So once a user logs in , then the user will be automatically redirected based upon their role.
-If admin, then they will be redirect to /admin orelse /user. A subscriber cannot access the /admin because the route is protected
+Since this is an authentication project alone, once a user logs in, they will be automatically redirected based on their role. If admin, then they will be redirected to /admin, otherwise to /user. A subscriber cannot access the /admin route because the route is protected.
 
 ## OTHER INFORMATION:
 
@@ -66,8 +65,13 @@ Both account activation and forgot password processes occur with a unique link s
 
 ### DATABASE:
 I have used MongoDB Atlas for Database connectivity. If you want to view my Database, here is the MongoDB Compass connection URL:
-URL:    "mongodb+srv://babu:babu123@cluster0.uicsygs.mongodb.net/"
+URL: "mongodb+srv://babu:babu123@cluster0.uicsygs.mongodb.net/"
 
 The Database name is "UserAuthSys" and the Schema name is "users".
 
 In the Database, you can see how the user data is being stored.
+
+If you face any errors or difficulties while deploying the project and testing it, kindly email me at the below email address so that I can assist you:
+-My personal Email: babuprasad784@gmail.com.
+
+Thank You!
