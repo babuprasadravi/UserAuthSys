@@ -54,6 +54,51 @@ Whenever a user signs up, they will be automatically assigned the role of subscr
 
 Since this is an authentication project alone, once a user logs in, they will be automatically redirected based on their role. If admin, then they will be redirected to /admin, otherwise to /user. A subscriber cannot access the /admin route because the route is protected.
 
+## DATABASE SCHEMA :
+
+### Subscriber Scehma :
+```
+/** 
+* Paste one or more documents here
+*/
+{
+  "name": "BABU PRASAD",
+  "email": "babuprasad784@gmail.com",
+  "phone": "+916379340409",
+  "password": "$2b$10$cM/XykMxyQMlgHe6rNlnPepFfWMDWeyXQngszY2M6OKWc9nouoqxG",
+  "role": "subscriber",
+  "resetPasswordLink": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjM3ZDM0MzE1ZDNmOTI2MjRkMzA1OTAiLCJpYXQiOjE3MTQ5ODcyNTksImV4cCI6MTcxNDk4Nzg1OX0.lNUptxp129yinLrnQXQLQuYoYDFlxcds6dSbMS5BNyU",
+  "createdAt": {
+    "$date": "2024-05-05T18:43:15.224Z"
+  },
+  "updatedAt": {
+    "$date": "2024-05-06T09:20:59.339Z"
+  },
+  "__v": 0
+}
+```
+### Admin Schema :
+```
+/** 
+* Paste one or more documents here
+*/
+{
+  "name": "ADMIN",
+  "email": "userauthsys@gmail.com",
+  "phone": "+919842426856",
+  "password": "$2b$10$GGvn3IqTXlx31SnM3WDSBOuqu2cav2QXRm.k9XMDV1xor1KwmQuMy",
+  "role": "admin",
+  "resetPasswordLink": "",
+  "createdAt": {
+    "$date": "2024-05-02T04:48:18.127Z"
+  },
+  "updatedAt": {
+    "$date": "2024-05-06T08:45:31.428Z"
+  },
+  "__v": 0
+}
+```
+
 ## OTHER INFORMATION:
 
 ### SIGNUP PAGE:
