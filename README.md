@@ -61,7 +61,7 @@ The User Registration page is validated so that you can only enter one UNIQUE EM
 Make sure the email address is valid and the phone number is entered in international format, otherwise, the page won't be validated. Example: (+91 63xxx 40xxx)
 
 ### ACCOUNT ACTIVATION and FORGOT PASSWORD:
-Both account activation and forgot password processes occur with a unique link sent to email. Make sure you open the email where the project is deployed locally on localhost.
+Both account activation and forgot password processes occur with a unique link sent to email. Make sure you open the link sent to email where the project is deployed locally on localhost.
 
 ### DATABASE:
 I have used MongoDB Atlas for Database connectivity. If you want to view my Database, here is the MongoDB Compass connection URL:
