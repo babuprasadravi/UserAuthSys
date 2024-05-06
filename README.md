@@ -110,7 +110,7 @@ Both account activation and forgot password processes occur with a unique link s
 
 ### DATABASE:
 I have used MongoDB Atlas for Database connectivity. If you want to view my Database, here is the MongoDB Compass connection URL:
-URL: ```mongodb+srv://babu:babu123@cluster0.uicsygs.mongodb.net/```
+                          ```mongodb+srv://babu:babu123@cluster0.uicsygs.mongodb.net/```
 
 The Database name is "UserAuthSys" and the Schema name is "users".
 
