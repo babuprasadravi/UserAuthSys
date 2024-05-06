@@ -1,17 +1,23 @@
+// Importing necessary modules and components
 import styles from "../styles/Activate.module.css";
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom"; 
 import axios from "axios";
-import { Toaster, toast } from 'sonner'
+import { Toaster, toast } from 'sonner';
+
+// Functional component for account activation
 const Activate = () => {
+    // State to hold user data and activation status
     const [userData, setUserData] = useState({
         name: "",
         token: "",
         show: true,
     });
 
+    // Extracting token from URL params
     const { token } = useParams();
 
+    // Effect hook to decode token and set user data
     useEffect(() => {
         if (token) {
             const decodedToken = decodeToken(token);
@@ -21,9 +27,10 @@ const Activate = () => {
         }
     }, [token]);
 
+    // Destructuring user data
     const { name } = userData;
 
-
+    // Function to handle form submission for account activation
     function clickSubmit(event) {
         event.preventDefault();
         axios({
@@ -42,7 +49,6 @@ const Activate = () => {
         });
     };
 
-    
     // Function to decode the JWT token
     function decodeToken(token) {
         try {
@@ -59,6 +65,7 @@ const Activate = () => {
         }
     }
 
+    // Rendering the activation component
     return (
         <div>
             <Toaster richColors position="top-right" expand='true' />
@@ -70,7 +77,6 @@ const Activate = () => {
                 </div>
             </div>
         </div>
-
     );
 };
 
