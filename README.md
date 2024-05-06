@@ -58,9 +58,6 @@ Since this is an authentication project alone, once a user logs in, they will be
 
 ### Subscriber Scehma :
 ```
-/** 
-* Paste one or more documents here
-*/
 {
   "name": "BABU PRASAD",
   "email": "babuprasad784@gmail.com",
@@ -79,9 +76,6 @@ Since this is an authentication project alone, once a user logs in, they will be
 ```
 ### Admin Schema :
 ```
-/** 
-* Paste one or more documents here
-*/
 {
   "name": "ADMIN",
   "email": "userauthsys@gmail.com",
