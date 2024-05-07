@@ -92,6 +92,21 @@ Since this is an authentication project alone, once a user logs in, they will be
   "__v": 0
 }
 ```
+### FailedLoginAttempts Schema :
+```
+{
+  "_id": {
+    "$oid": "6639bd93dd17467a3d08b8bc"
+  },
+  "ip": "::1",
+  "__v": 0,
+  "attempts": 1,
+  "lastAttempt": {
+    "$date": "2024-05-07T05:35:13.544Z"
+  }
+}
+
+```
 
 ## OTHER INFORMATION:
 
