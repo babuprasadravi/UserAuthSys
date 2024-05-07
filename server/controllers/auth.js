@@ -3,6 +3,9 @@ const jwt = require('jsonwebtoken');
 const { validationResult, check } = require('express-validator');
 const nodemailer = require('nodemailer');
 const { expressjwt: ejwt } = require('express-jwt');
+const FailedLoginAttempt = require('../models/loginAttempt');
+const RateLimit = require('express-rate-limit');
+const MongoStore = require('rate-limit-mongo');
 
 // Function to handle user signup
 exports.signup = async (req, res) => {
@@ -104,48 +107,69 @@ exports.accountActivation = async (req, res) => {
     });
 };
 
+// Rate limit middleware to prevent brute force attacks
+const loginLimiter = RateLimit({
+    store: new MongoStore({ 
+        uri: process.env.MONGO_URI, // Your MongoDB connection string
+        expireTimeMs: 15 * 60 * 1000, // 15 minutes expiration time for blocked IPs
+        errorHandler: console.error // Error handler
+    }),
+    windowMs: 1 * 60 * 1000, // 1 minute time frame
+    max: 5, // Maximum number of requests allowed in the time frame
+    handler: function(req, res) {
+        return res.status(429).json({ error: "Too many login attempts from this IP, please try again after 15 minutes." });
+    }});
+
 // Function to handle user signin
 exports.signin = async (req, res) => {
-    // Check for validation errors
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
-    }
-
-    const { email: userEmail, password } = req.body; 
-
-    try {
-        let user = await User.findOne({ email: userEmail }); // Find user by email
-        if (!user) {
-            return res.status(400).json({
-                error: 'User with that email does not exist. Please signup.'
-            });
+    // Apply rate limiting middleware
+    loginLimiter(req, res, async () => {
+        // Check for validation errors
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
         }
 
-        if (!user.authenticate(password)) {
+        const { email: userEmail, password } = req.body; 
+
+        try {
+            let user = await User.findOne({ email: userEmail }); // Find user by email
+            if (!user) {
+                return res.status(400).json({
+                    error: 'User with that email does not exist. Please signup.'
+                });
+            }
+
+            if (!user.authenticate(password)) {
+                // Record failed login attempt
+                await FailedLoginAttempt.findOneAndUpdate({ ip: req.ip }, { $inc: { attempts: 1 }, lastAttempt: Date.now() }, { upsert: true });
+
+                return res.status(400).json({
+                    error: 'Email and password do not match'
+                });
+            }
+
+            // Reset failed login attempts upon successful login
+            await FailedLoginAttempt.findOneAndDelete({ ip: req.ip });
+
+            // Generate JWT token
+            const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, { expiresIn: '7d' });
+
+            // Destructure user fields
+            const { _id, name, email, phone, role } = user;
+
+            return res.json({
+                token,
+                user: { _id, name, email, phone, role }
+            });
+        } catch (err) {
+            console.error('SIGNIN ERROR', err);
             return res.status(400).json({
-                error: 'Email and password do not match'
+                error: err.message
             });
         }
-
-        // Generate JWT token
-        const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, { expiresIn: '7d' });
-
-        // Destructure user fields
-        const { _id, name, email, phone, role } = user;
-
-        return res.json({
-            token,
-            user: { _id, name, email, phone, role }
-        });
-    } catch (err) {
-        console.error('SIGNIN ERROR', err);
-        return res.status(400).json({
-            error: err.message
-        });
-    }
+    });
 };
-
 
 // Middleware to require signin for protected routes
 exports.requireSignin = ejwt({
