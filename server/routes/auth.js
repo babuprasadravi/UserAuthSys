@@ -9,7 +9,7 @@ const router = express.Router();
 const { signup, accountActivation, signin, forgotPassword, resetPassword } = require('../controllers/auth');
 
 // Import validators
-const { userSignupValidator, userSigninValidator, forgotPasswordValidator, resetPasswordValidator } = require('../validators/auth');
+const { userSignupValidator, userSigninValidator, forgotPasswordValidator, resetPasswordValidator, passwordValidator } = require('../validators/auth');
 const { runValidation } = require('../validators');
 
 // Define routes

@@ -28,6 +28,9 @@ exports.userSignupValidator = [
     check('password')
         .isLength({ min: 6 })
         .withMessage('Password must be at least 6 characters long')
+        // Check if the password contains at least one uppercase letter, one lowercase letter, one number, and one special symbol
+        .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/, 'i')
+        .withMessage('Password must contain at least one uppercase letter, one lowercase letter, one number, and one special symbol')
 ];
 
 // Validation middleware for user sign-in
@@ -61,4 +64,8 @@ exports.resetPasswordValidator = [
         .isEmpty()
         .isLength({ min: 6 })
         .withMessage('Password must be at least 6 characters long')
+        // Check if the password contains at least one uppercase letter, one lowercase letter, one number, and one special symbol
+        .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/, 'i')
+        .withMessage('Password must contain at least one uppercase letter, one lowercase letter, one number, and one special symbol')
 ];
+
