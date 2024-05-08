@@ -34,7 +34,6 @@ exports.update = (req, res, next) => {
           error: 'User not found',
         });
       }
-
       if (!name) {
         return res.status(400).json({
           error: 'Name is required',
