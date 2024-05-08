@@ -111,11 +111,15 @@ Since this is an authentication project alone, once a user logs in, they will be
 ## OTHER INFORMATION:
 
 ### SIGNUP PAGE:
-The User Registration page is validated so that you can only enter one UNIQUE EMAIL ADDRESS and ONE UNIQUE PHONE NUMBER. 
+The User Registration page is validated so that you can only enter one **UNIQUE EMAIL ADDRESS** and **ONE UNIQUE PHONE NUMBER**. 
 Make sure the email address is valid and the phone number is entered in international format, otherwise, the page won't be validated. Example: (+91 63xxx 40xxx)
 
 ### ACCOUNT ACTIVATION and FORGOT PASSWORD:
 Both account activation and forgot password processes occur with a unique link sent to email. Make sure you open the link sent to email where the project is deployed locally on localhost.
+
+### Authentication Security : 
+ 1) Passwords are validated to only get **STRONG PASSWORDS**, so that its much secure.
+ 2) The signin page is protected from **BRUTE FORCE ATTACKS**. If someone is trying with various combination of passwords, so they might enter a lot of wrong passwords. So if a user enters more than five wrong passwords in a single minute, their ip address gets blocked (only for 15 mins) for further login. So this prevents the project from brute force attacks
 
 ### DATABASE:
 I have used MongoDB Atlas for Database connectivity. If you want to view my Database, here is the MongoDB Compass connection URL:
